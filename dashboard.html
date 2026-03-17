@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Cyber Buddy Academy</title>
+<link rel="icon" href="https://raw.githubusercontent.com/Mubyyy404/Cyber-Buddy/main/mylogo.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+<style>
+:root{--c:#06b6d4;--c2:#0ea5e9;--bg:#0b1220;--bg2:#0d1829;--bg3:#111f33;--bdr:rgba(6,182,212,.12);--tx:#e6f6f8;--dim:#64748b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--tx);overflow:hidden;}
+/* SIDEBAR */
+#sb{width:245px;min-width:245px;background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s ease;}
+@media(max-width:768px){#sb{transform:translateX(-100%)}#sb.open{transform:translateX(0)}#mc{margin-left:0!important;padding:12px!important}#mbar{display:flex!important}body{overflow:auto}.sg{grid-template-columns:1fr 1fr!important}.c2{grid-template-columns:1fr!important}.course-grid{grid-template-columns:1fr!important}}
+.ni{display:flex;align-items:center;gap:9px;width:100%;padding:9px 14px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;color:var(--dim);background:transparent;font-family:'Poppins',sans-serif;transition:all .18s;text-align:left;border-left:3px solid transparent;}
+.ni i{width:16px;text-align:center;font-size:.82rem;}
+.ni:hover{background:rgba(6,182,212,.06);color:var(--tx);border-left-color:rgba(6,182,212,.3);}
+.ni.on{background:rgba(6,182,212,.13);color:var(--c);border-left-color:var(--c);}
+.sep{font-size:.58rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:1.8px;padding:12px 14px 4px;}
+/* MOBILE BAR */
+#mbar{display:none;height:52px;background:var(--bg2);border-bottom:1px solid var(--bdr);align-items:center;justify-content:space-between;padding:0 14px;position:sticky;top:0;z-index:99;}
+/* MAIN */
+#mc{margin-left:245px;height:100vh;overflow-y:auto;padding:22px;}
+/* TABS */
+.tab{display:none;}.tab.on{display:block;animation:fu .28s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* CARDS */
+.card{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px;transition:border-color .2s;}
+.stat-card{background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px;transition:border-color .2s,transform .2s;}
+.stat-card:hover{border-color:rgba(6,182,212,.3);transform:translateY(-3px);}
+/* COURSE CARD */
+.cc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;}
+.cc:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.35);box-shadow:0 14px 36px rgba(0,0,0,.4);}
+.cc img{transition:transform .4s;width:100%;height:155px;object-fit:cover;display:block;}
+.cc:hover img{transform:scale(1.05);}
+/* Inputs */
+.inp{width:100%;padding:9px 12px;background:rgba(255,255,255,.05);border:1.5px solid rgba(6,182,212,.15);border-radius:9px;color:var(--tx);font-family:'Poppins',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.inp:focus{border-color:var(--c);box-shadow:0 0 0 3px rgba(6,182,212,.08);}
+.inp::placeholder{color:rgba(230,246,248,.24);}
+.inp[readonly]{opacity:.55;cursor:not-allowed;}
+/* Buttons */
+.btn{padding:8px 15px;border-radius:8px;font-weight:700;font-size:.79rem;cursor:pointer;border:none;font-family:'Poppins',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.bc{background:linear-gradient(135deg,#06b6d4,#0ea5e9);color:#042028;}.bc:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(6,182,212,.3);}
+.bo{background:transparent;border:1px solid var(--bdr);color:var(--c);}.bo:hover{background:rgba(6,182,212,.07);}
+.bbl{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#60a5fa;}.bbl:hover{background:rgba(59,130,246,.18);}
+.brd{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.22);color:#f87171;}.brd:hover{background:rgba(239,68,68,.2);}
+/* Badge */
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:.64rem;font-weight:700;}
+.bg{background:rgba(34,197,94,.1);color:#22c55e;border:1px solid rgba(34,197,94,.2);}
+.bb{background:rgba(6,182,212,.1);color:var(--c);border:1px solid var(--bdr);}
+/* Profile */
+.cover-bg{height:90px;background:linear-gradient(135deg,rgba(6,182,212,.3),rgba(14,165,233,.15),rgba(6,182,212,.05));border-radius:12px 12px 0 0;}
+.avatar{width:72px;height:72px;border-radius:14px;border:3px solid rgba(6,182,212,.4);box-shadow:0 0 18px rgba(6,182,212,.2);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;background:rgba(6,182,212,.15);color:var(--c);}
+/* Toast */
+#toast{position:fixed;bottom:18px;right:18px;z-index:999;padding:9px 16px;border-radius:8px;font-size:.79rem;font-weight:600;pointer-events:none;transform:translateY(55px);opacity:0;transition:all .28s;font-family:'Poppins',sans-serif;}
+#toast.show{transform:translateY(0);opacity:1;}
+#toast.ok{background:#064e3b;border:1px solid #10b981;color:#6ee7b7;}
+#toast.err{background:#4c0519;border:1px solid #f43f5e;color:#fda4af;}
+#toast.info{background:rgba(6,182,212,.12);border:1px solid var(--c);color:var(--c);}
+/* Layout */
+.lbl{display:block;font-size:.66rem;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:1.3px;margin-bottom:5px;}
+.c2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.sh h2{font-size:1.05rem;font-weight:700;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:#1e3a4a;border-radius:4px;}
+.search-wrap{position:relative;}.search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:.75rem;}.search-wrap input{padding-left:32px;}
+/* Progress */
+.prog-track{height:5px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;margin-top:5px;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--c),var(--c2));border-radius:99px;transition:width .5s;}
+.prog-gold{background:linear-gradient(90deg,#f59e0b,#fbbf24)!important;}
+/* Logout */
+.logout-btn{display:flex;align-items:center;gap:7px;width:calc(100% - 28px);margin:8px 14px 0;padding:8px 12px;border-radius:8px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:#f87171;font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.logout-btn:hover{background:rgba(239,68,68,.18);}
+/* Notif dot */
+.notif-dot{width:7px;height:7px;border-radius:50%;background:#f59e0b;margin-left:auto;flex-shrink:0;}
+/* Quick notes */
+textarea.qnotes{width:100%;min-height:120px;background:rgba(255,255,255,.04);border:1.5px solid rgba(6,182,212,.12);border-radius:8px;color:var(--tx);font-family:'Poppins',sans-serif;font-size:.82rem;padding:10px 12px;outline:none;resize:vertical;transition:border-color .2s;}
+textarea.qnotes:focus{border-color:var(--c);}
+textarea.qnotes::placeholder{color:rgba(230,246,248,.22);}
+</style>
+</head>
+<body>
+
+<!-- MOBILE BAR -->
+<div id="mbar">
+  <button id="menuBtn" style="background:none;border:none;color:var(--c);font-size:1rem;cursor:pointer;"><i class="fas fa-bars"></i></button>
+  <span style="font-weight:800;font-size:.92rem;color:var(--c);">Cyber<span style="color:#fff;">Buddy</span></span>
+  <div id="mobileAvatar" style="width:28px;height:28px;border-radius:7px;background:rgba(6,182,212,.15);border:1.5px solid rgba(6,182,212,.3);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--c);">?</div>
+</div>
+<div id="ov" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;" onclick="cSB()"></div>
+
+<!-- SIDEBAR -->
+<div id="sb">
+  <div style="display:flex;align-items:center;gap:9px;padding:16px 14px 12px;border-bottom:1px solid var(--bdr);">
+    <img src="https://raw.githubusercontent.com/Mubyyy404/Cyber-Buddy/refs/heads/main/mylogo.png" style="width:28px;height:28px;border-radius:7px;" alt="">
+    <span style="font-weight:800;font-size:.95rem;color:var(--c);">Cyber<span style="color:#fff;">Buddy</span></span>
+  </div>
+  <nav style="flex:1;overflow-y:auto;padding:6px 0;">
+    <div class="sep">Learn</div>
+    <button class="ni on" data-tab="dashboard"><i class="fas fa-th-large"></i>Dashboard</button>
+    <button class="ni" data-tab="mycourses"><i class="fas fa-play-circle"></i>My Courses</button>
+    <button class="ni" data-tab="progress"><i class="fas fa-chart-bar"></i>My Progress</button>
+    <button class="ni" data-tab="certificates"><i class="fas fa-award"></i>Certificates</button>
+    <button class="ni" data-tab="billing"><i class="fas fa-file-invoice"></i>Billing</button>
+    <div class="sep">Tools</div>
+    <button class="ni" data-tab="notes"><i class="fas fa-sticky-note"></i>Quick Notes</button>
+    <div class="sep">Account</div>
+    <button class="ni" data-tab="profile"><i class="fas fa-user-circle"></i>Profile</button>
+    <button class="ni" data-tab="security"><i class="fas fa-shield-alt"></i>Security</button>
+    <button class="ni" data-tab="notifications"><i class="fas fa-bell"></i>Notifications<span class="notif-dot"></span></button>
+  </nav>
+  <div style="border-top:1px solid var(--bdr);padding:10px 0 12px;">
+    <div style="padding:6px 14px 8px;">
+      <p id="sbUserName" style="font-size:.76rem;font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></p>
+      <p id="sbUserEmail" style="font-size:.65rem;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px;"></p>
+    </div>
+    <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i>Sign Out</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mc">
+
+<!-- ══ DASHBOARD ══ -->
+<section id="dashboard" class="tab on">
+  <div class="sh">
+    <div>
+      <h2>Student Dashboard</h2>
+      <p style="font-size:.75rem;color:var(--dim);margin-top:2px;">Welcome back, <span id="welcomeName" style="color:var(--c);">...</span> 👋</p>
+    </div>
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input id="searchCourse" class="inp" style="width:210px;" placeholder="Search courses...">
+    </div>
+  </div>
+
+  <!-- Streak card -->
+  <div id="streakCard" class="card" style="margin-bottom:16px;"></div>
+
+  <!-- Stats row -->
+  <div class="sg" style="display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px;">
+    <div class="stat-card"><div style="font-size:.68rem;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:.8px;">Enrolled</div><div id="statEnrolled" style="font-size:1.8rem;font-weight:800;color:var(--c);">0</div></div>
+    <div class="stat-card"><div style="font-size:.68rem;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:.8px;">Completed</div><div id="statCompleted" style="font-size:1.8rem;font-weight:800;color:#22c55e;">0</div></div>
+    <div class="stat-card"><div style="font-size:.68rem;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:.8px;">Certificates</div><div id="statCerts" style="font-size:1.8rem;font-weight:800;color:#f59e0b;">0</div></div>
+    <div class="stat-card"><div style="font-size:.68rem;color:var(--dim);margin-bottom:4px;text-transform:uppercase;letter-spacing:.8px;">Streak</div><div id="statStreak" style="font-size:1.8rem;font-weight:800;color:#a78bfa;">0🔥</div></div>
+  </div>
+
+  <h3 style="font-size:.88rem;font-weight:700;margin-bottom:14px;">All Available Courses</h3>
+  <div id="coursesGrid" class="course-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;"></div>
+</section>
+
+<!-- ══ MY COURSES ══ -->
+<section id="mycourses" class="tab">
+  <div class="sh"><h2>My Learning Path</h2></div>
+  <div id="myGrid" class="course-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <p style="color:var(--dim);font-size:.82rem;grid-column:1/-1;">Loading your courses...</p>
+  </div>
+</section>
+
+<!-- ══ PROGRESS ══ -->
+<section id="progress" class="tab">
+  <div class="sh"><h2>My Learning Progress</h2></div>
+  <div class="c2" style="margin-bottom:14px;">
+    <div class="card">
+      <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:14px;"><i class="fas fa-chart-pie" style="margin-right:5px;"></i>Overview</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div style="background:rgba(6,182,212,.06);border:1px solid rgba(6,182,212,.14);border-radius:9px;padding:12px;text-align:center;"><p id="progTotalEnrolled" style="font-size:1.4rem;font-weight:800;color:var(--c);">0</p><p style="font-size:.64rem;color:var(--dim);margin-top:2px;">Enrolled</p></div>
+        <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.14);border-radius:9px;padding:12px;text-align:center;"><p id="progTotalCompleted" style="font-size:1.4rem;font-weight:800;color:#22c55e;">0</p><p style="font-size:.64rem;color:var(--dim);margin-top:2px;">Completed</p></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:.72rem;color:var(--dim);">Overall progress</span><span id="progOverallPct" style="font-size:.72rem;color:var(--c);">0%</span></div>
+      <div class="prog-track"><div id="progOverallBar" class="prog-fill" style="width:0%;"></div></div>
+    </div>
+    <div class="card">
+      <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:12px;"><i class="fas fa-clock" style="margin-right:5px;"></i>Study Activity</h4>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:.76rem;"><i class="fas fa-fire" style="color:#f59e0b;width:16px;text-align:center;"></i><span style="color:var(--dim);">Daily Streak</span><span id="pStreakDisp" style="margin-left:auto;font-weight:700;color:#fcd34d;">0 days</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:.76rem;"><i class="fas fa-trophy" style="color:#f59e0b;width:16px;text-align:center;"></i><span style="color:var(--dim);">Courses Completed</span><span id="pCompDisp" style="margin-left:auto;font-weight:700;color:#22c55e;">0</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:.76rem;"><i class="fas fa-sign-in-alt" style="color:var(--c);width:16px;text-align:center;"></i><span style="color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" id="sessionInfo">Loading...</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:14px;"><i class="fas fa-book-open" style="margin-right:5px;"></i>Course Breakdown</h4>
+    <div id="progCourseList"><p style="font-size:.78rem;color:var(--dim);">Loading...</p></div>
+  </div>
+</section>
+
+<!-- ══ CERTIFICATES ══ -->
+<section id="certificates" class="tab">
+  <div class="sh"><h2>My Certificates</h2></div>
+  <div class="card" style="margin-bottom:14px;">
+    <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:12px;"><i class="fas fa-trophy" style="margin-right:5px;color:#f59e0b;"></i>Earned Certificates</h4>
+    <div id="earnedCertList"></div>
+  </div>
+  <div class="card">
+    <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:12px;"><i class="fas fa-award" style="margin-right:5px;"></i>Issued Certificates (Official)</h4>
+    <p style="font-size:.74rem;color:var(--dim);margin-bottom:12px;">These are your officially issued certificates. Download links provided by admin.</p>
+    <div id="certList"><p style="color:var(--dim);font-size:.78rem;">Loading...</p></div>
+  </div>
+</section>
+
+<!-- ══ BILLING ══ -->
+<section id="billing" class="tab">
+  <div class="sh"><h2>Billing & Invoices</h2></div>
+  <div id="invoiceList" style="display:grid;gap:10px;max-width:680px;"><p style="color:var(--dim);font-size:.82rem;">Loading...</p></div>
+</section>
+
+<!-- ══ QUICK NOTES ══ -->
+<section id="notes" class="tab">
+  <div class="sh"><h2>Quick Notes</h2></div>
+  <div class="card" style="max-width:680px;">
+    <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:8px;"><i class="fas fa-sticky-note" style="margin-right:5px;"></i>Personal Study Notes</h4>
+    <p style="font-size:.75rem;color:var(--dim);margin-bottom:12px;">Jot down important concepts, links, or anything you want to remember. Saved locally on this device.</p>
+    <textarea id="quickNotesTA" class="qnotes" placeholder="Type your notes here... e.g.&#10;- SQL Injection: use ' OR '1'='1 to test&#10;- XSS: always sanitize input&#10;- Burp Suite shortcut: Ctrl+R to send to repeater&#10;..."></textarea>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px;">
+      <p style="font-size:.7rem;color:var(--dim);"><i class="fas fa-info-circle" style="margin-right:3px;"></i>Notes are saved locally on this browser only.</p>
+      <button id="saveQNotes" class="btn bc" style="padding:7px 16px;"><i class="fas fa-save"></i>Save Notes</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROFILE ══ -->
+<section id="profile" class="tab">
+  <div class="sh"><h2>My Profile</h2></div>
+  <div style="max-width:580px;">
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px;">
+      <div class="cover-bg"></div>
+      <div style="padding:0 20px 20px;margin-top:-36px;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px;">
+          <div id="profileAvatar" class="avatar">?</div>
+          <span id="profileRole" class="bdg bb" style="margin-bottom:6px;">Student</span>
+        </div>
+        <h3 id="profileName" style="font-size:1.15rem;font-weight:700;"></h3>
+        <p id="profileEmail" style="font-size:.8rem;color:var(--dim);margin-top:2px;"></p>
+        <p id="profilePhone" style="font-size:.76rem;color:var(--dim);margin-top:2px;"></p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);">
+          <div style="text-align:center;"><p id="pStatCourses" style="font-size:1.3rem;font-weight:800;color:var(--c);">0</p><p style="font-size:.65rem;color:var(--dim);margin-top:2px;">Courses</p></div>
+          <div style="text-align:center;"><p id="pStatCerts" style="font-size:1.3rem;font-weight:800;color:#22c55e;">0</p><p style="font-size:.65rem;color:var(--dim);margin-top:2px;">Certificates</p></div>
+          <div style="text-align:center;"><p id="pStatCompleted" style="font-size:1.3rem;font-weight:800;color:#f59e0b;">0</p><p style="font-size:.65rem;color:var(--dim);margin-top:2px;">Completed</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:14px;">
+      <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:14px;"><i class="fas fa-edit" style="margin-right:5px;"></i>Edit Profile</h4>
+      <div class="c2" style="margin-bottom:12px;">
+        <div><label class="lbl">Display Name</label><input id="editName" class="inp" placeholder="Your name"></div>
+        <div><label class="lbl">Phone Number</label><input id="editPhone" class="inp" placeholder="+91 98765 43210"></div>
+        <div style="grid-column:1/-1;"><label class="lbl">Email (read-only)</label><input id="editEmail" class="inp" readonly></div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="lbl">Avatar Color</label>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button onclick="setAvatarColor('#06b6d4')" style="width:26px;height:26px;border-radius:50%;background:#06b6d4;border:2px solid transparent;cursor:pointer;" title="Cyan"></button>
+          <button onclick="setAvatarColor('#8b5cf6')" style="width:26px;height:26px;border-radius:50%;background:#8b5cf6;border:2px solid transparent;cursor:pointer;" title="Purple"></button>
+          <button onclick="setAvatarColor('#ec4899')" style="width:26px;height:26px;border-radius:50%;background:#ec4899;border:2px solid transparent;cursor:pointer;" title="Pink"></button>
+          <button onclick="setAvatarColor('#22c55e')" style="width:26px;height:26px;border-radius:50%;background:#22c55e;border:2px solid transparent;cursor:pointer;" title="Green"></button>
+          <button onclick="setAvatarColor('#f59e0b')" style="width:26px;height:26px;border-radius:50%;background:#f59e0b;border:2px solid transparent;cursor:pointer;" title="Amber"></button>
+          <button onclick="setAvatarColor('#ef4444')" style="width:26px;height:26px;border-radius:50%;background:#ef4444;border:2px solid transparent;cursor:pointer;" title="Red"></button>
+        </div>
+      </div>
+      <button id="saveProfile" class="btn bc"><i class="fas fa-save"></i>Save Changes</button>
+    </div>
+    <div class="card" style="border-color:rgba(239,68,68,.15);">
+      <h4 style="font-size:.82rem;font-weight:700;color:#f87171;margin-bottom:12px;"><i class="fas fa-exclamation-triangle" style="margin-right:5px;"></i>Account Actions</h4>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;">
+        <button id="resetPwBtn" class="btn bbl"><i class="fas fa-key"></i>Reset Password</button>
+        <button id="deleteAccBtn" class="btn brd"><i class="fas fa-user-times"></i>Delete Account</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECURITY ══ -->
+<section id="security" class="tab">
+  <div class="sh"><h2>Security</h2></div>
+  <div style="max-width:480px;display:grid;gap:14px;">
+    <div class="card">
+      <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:10px;"><i class="fas fa-lock" style="margin-right:5px;"></i>Password Reset</h4>
+      <p style="font-size:.78rem;color:var(--dim);margin-bottom:12px;">Send a password reset link to your registered email. The link expires after 1 hour.</p>
+      <button id="secResetBtn" class="btn bc"><i class="fas fa-paper-plane"></i>Send Reset Email</button>
+    </div>
+    <div class="card">
+      <h4 style="font-size:.82rem;font-weight:700;color:var(--c);margin-bottom:10px;"><i class="fas fa-user-shield" style="margin-right:5px;"></i>Account Info</h4>
+      <p id="secSessionInfo" style="font-size:.78rem;color:var(--dim);"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NOTIFICATIONS ══ -->
+<section id="notifications" class="tab">
+  <div class="sh">
+    <h2>Notifications</h2>
+    <button class="btn bo" style="font-size:.75rem;padding:6px 12px;" onclick="window._loadNotifs?.()"><i class="fas fa-sync"></i>Refresh</button>
+  </div>
+  <div id="notifList" style="max-width:600px;display:grid;gap:10px;">
+    <p style="color:var(--dim);font-size:.78rem;">Loading notifications...</p>
+  </div>
+</section>
+
+</div><!-- /mc -->
+<div id="toast"></div>
+
+<script>
+function cSB(){document.getElementById('sb').classList.remove('open');document.getElementById('ov').style.display='none';}
+document.getElementById('menuBtn')?.addEventListener('click',()=>{document.getElementById('sb').classList.add('open');document.getElementById('ov').style.display='block';});
+document.querySelectorAll('.ni[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+    document.querySelectorAll('.ni').forEach(b=>b.classList.remove('on'));
+    document.getElementById(btn.dataset.tab)?.classList.add('on');
+    btn.classList.add('on');
+    cSB();
+    if(btn.dataset.tab==='notifications') window._loadNotifs?.();
+  });
+});
+function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className=`show ${type}`;setTimeout(()=>t.className='',3200);}
+let avatarColor='#06b6d4';
+function setAvatarColor(color){
+  avatarColor=color;
+  const av=document.getElementById('profileAvatar');
+  if(av){av.style.background=color+'26';av.style.color=color;av.style.borderColor=color+'66';}
+}
+</script>
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

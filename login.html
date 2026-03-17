@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login — Cyber Buddy Academy</title>
+<link rel="icon" href="https://raw.githubusercontent.com/Mubyyy404/Cyber-Buddy/main/mylogo.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+<style>
+:root{--c:#06b6d4;--c2:#0ea5e9;--bg:#0b1220;--bg2:#0d1829;--bg3:#111f33;--bdr:rgba(6,182,212,.12);--tx:#e6f6f8;--dim:#64748b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;}
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.nav{position:relative;z-index:10;height:54px;background:rgba(11,18,32,.96);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 24px;backdrop-filter:blur(14px);}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.95rem;color:var(--c);}
+.logo img{width:28px;height:28px;border-radius:7px;}
+.page{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+.card{background:rgba(13,24,41,.92);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);border-radius:16px;padding:28px;}
+/* Input */
+.inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1.5px solid rgba(6,182,212,.2);border-radius:10px;color:var(--tx);font-family:'Poppins',sans-serif;font-size:.87rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.inp:focus{border-color:var(--c);box-shadow:0 0 0 3px rgba(6,182,212,.1);}
+.inp::placeholder{color:rgba(230,246,248,.28);}
+.inp.e{border-color:#f43f5e!important;box-shadow:0 0 0 3px rgba(244,63,94,.08)!important;}
+.inp.ok{border-color:#22c55e!important;}
+.lbl{display:block;font-size:.67rem;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:1.3px;margin-bottom:5px;}
+/* Field error */
+.fe{display:none;align-items:flex-start;gap:6px;margin-top:6px;padding:7px 11px;border-radius:8px;background:rgba(244,63,94,.09);border:1px solid rgba(244,63,94,.2);font-size:.73rem;color:#fda4af;line-height:1.45;}
+.fe.on{display:flex;}
+.fe i{flex-shrink:0;margin-top:1px;}
+/* Field success */
+.fs{display:none;align-items:center;gap:5px;margin-top:4px;font-size:.72rem;color:#86efac;}
+.fs.on{display:flex;}
+/* Top alert */
+.al{display:none;align-items:flex-start;gap:9px;padding:11px 14px;border-radius:10px;font-size:.8rem;font-weight:600;line-height:1.45;margin-bottom:16px;}
+.al.on{display:flex;}
+.al i{flex-shrink:0;margin-top:1px;}
+.al.er{background:rgba(76,5,25,.85);border:1px solid rgba(244,63,94,.32);color:#fda4af;}
+.al.su{background:rgba(6,78,59,.85);border:1px solid rgba(16,185,129,.32);color:#6ee7b7;}
+.al.in{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.28);color:var(--c);}
+.al.wa{background:rgba(234,179,8,.09);border:1px solid rgba(234,179,8,.28);color:#fde68a;}
+/* Verify notice */
+.vn{display:none;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.22);border-radius:10px;padding:12px 14px;margin-bottom:14px;}
+.vn.on{display:block;}
+/* Buttons */
+.btn-p{width:100%;padding:12px;background:linear-gradient(135deg,#06b6d4,#0ea5e9);color:#042028;font-weight:700;font-size:.9rem;border:none;border-radius:10px;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .18s,box-shadow .18s;}
+.btn-p:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 22px rgba(6,182,212,.35);}
+.btn-p:disabled{opacity:.6;cursor:not-allowed;}
+.btn-g{width:100%;padding:11px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:var(--tx);font-weight:600;font-size:.88rem;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;}
+.btn-g:hover:not(:disabled){background:rgba(255,255,255,.1);border-color:rgba(6,182,212,.35);}
+.btn-g:disabled{opacity:.6;cursor:not-allowed;}
+.div{display:flex;align-items:center;gap:10px;color:rgba(230,246,248,.2);font-size:.75rem;}
+.div::before,.div::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.pw{position:relative;}.pw .inp{padding-right:44px;}
+.pwtog{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:.88rem;padding:3px;transition:color .2s;}
+.pwtog:hover{color:var(--c);}
+/* Forgot link */
+.fgt{background:none;border:none;font-size:.7rem;color:var(--c);cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;padding:0;transition:opacity .2s;}
+.fgt:hover{opacity:.75;}
+/* loading state on google btn */
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<canvas id="bgc"></canvas>
+<div class="nav">
+  <div class="logo">
+    <img src="https://raw.githubusercontent.com/Mubyyy404/Cyber-Buddy/refs/heads/main/mylogo.png" alt="">
+    <span>Cyber<span style="color:#fff;">Buddy</span> <span style="font-size:.65rem;font-weight:400;color:var(--dim);">Academy</span></span>
+  </div>
+</div>
+<div class="page">
+  <div style="width:100%;max-width:420px;">
+    <div style="text-align:center;margin-bottom:22px;">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.22);display:flex;align-items:center;justify-content:center;margin:0 auto 13px;"><i class="fas fa-shield-alt" style="color:var(--c);font-size:1.25rem;"></i></div>
+      <h1 style="font-size:1.35rem;font-weight:800;color:var(--c);">Welcome Back</h1>
+      <p style="font-size:.79rem;color:var(--dim);margin-top:5px;">Sign in to your Cyber Buddy Academy account</p>
+    </div>
+    <div class="card">
+      <!-- Top alert -->
+      <div class="al" id="topAl"><i id="topIco" class="fas fa-exclamation-circle"></i><div id="topTxt"></div></div>
+      <!-- Verify notice -->
+      <div class="vn" id="vn">
+        <p style="font-size:.79rem;font-weight:700;color:#fde68a;margin-bottom:5px;"><i class="fas fa-envelope" style="margin-right:5px;"></i>Email not verified</p>
+        <p style="font-size:.75rem;color:rgba(253,230,138,.75);line-height:1.5;">Your email hasn't been verified yet. Check your inbox (and spam folder) for our verification email.</p>
+        <button id="resendBtn" style="margin-top:8px;background:rgba(234,179,8,.15);border:1px solid rgba(234,179,8,.3);color:#fde68a;padding:6px 14px;border-radius:7px;font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;">
+          <i class="fas fa-paper-plane" style="margin-right:4px;"></i>Resend Verification Email
+        </button>
+      </div>
+      <!-- Email -->
+      <div style="margin-bottom:14px;">
+        <label class="lbl">Email Address</label>
+        <input id="ei" type="email" class="inp" placeholder="you@email.com" autocomplete="email">
+        <div class="fe" id="ee"><i class="fas fa-exclamation-circle"></i><span id="eet"></span></div>
+        <div class="fs" id="eo"><i class="fas fa-check-circle"></i><span>Looks good!</span></div>
+      </div>
+      <!-- Password -->
+      <div style="margin-bottom:18px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <label class="lbl" style="margin-bottom:0;">Password</label>
+          <button class="fgt" id="fgBtn">Forgot password?</button>
+        </div>
+        <div class="pw">
+          <input id="pi" type="password" class="inp" placeholder="Enter your password" autocomplete="current-password">
+          <button class="pwtog" id="pwtog" type="button"><i class="fas fa-eye" id="pwico"></i></button>
+        </div>
+        <div class="fe" id="pe"><i class="fas fa-exclamation-circle"></i><span id="pet"></span></div>
+      </div>
+      <button id="loginBtn" class="btn-p" style="margin-bottom:14px;"><i class="fas fa-sign-in-alt"></i>Sign In</button>
+      <div class="div" style="margin-bottom:14px;">OR CONTINUE WITH</div>
+      <button id="gBtn" class="btn-g" style="margin-bottom:18px;">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+        Sign in with Google
+      </button>
+      <p style="text-align:center;font-size:.8rem;color:var(--dim);">Don't have an account? <a href="register.html" style="color:var(--c);font-weight:700;text-decoration:none;margin-left:2px;">Create one free →</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Matrix canvas */
+(function(){
+  const c=document.getElementById('bgc'),x=c.getContext('2d');let d=[];
+  function r(){c.width=innerWidth;c.height=innerHeight;d=Array.from({length:Math.floor(c.width/16)},()=>Math.random()*40);}
+  r();window.addEventListener('resize',r);
+  setInterval(()=>{x.fillStyle='rgba(11,18,32,.1)';x.fillRect(0,0,c.width,c.height);x.fillStyle='rgba(6,182,212,.5)';x.font='12px monospace';d.forEach((y,i)=>{x.fillText(Math.random()>.5?'1':'0',i*16,y*16);if(y*16>c.height&&Math.random()>.975)d[i]=0;d[i]+=.8;});},55);
+})();
+/* PW toggle */
+(function(){
+  const p=document.getElementById('pi'),ico=document.getElementById('pwico');
+  document.getElementById('pwtog').onclick=()=>{const v=p.type==='password';p.type=v?'text':'password';ico.className=v?'fas fa-eye-slash':'fas fa-eye';};
+})();
+/* Enter key */
+document.getElementById('pi').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginBtn').click();});
+document.getElementById('ei').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('pi').focus();});
+/* Live email validation */
+document.getElementById('ei').addEventListener('input',function(){
+  const v=this.value.trim();
+  this.classList.remove('e','ok');
+  document.getElementById('ee').classList.remove('on');
+  document.getElementById('eo').classList.remove('on');
+  if(!v)return;
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){this.classList.add('ok');document.getElementById('eo').classList.add('on');}
+});
+/* Clear errors on input */
+document.getElementById('pi').addEventListener('input',()=>{document.getElementById('pi').classList.remove('e');document.getElementById('pe').classList.remove('on');});
+</script>
+
+<script type="module">
+import { auth, db } from "./js/firebase.js";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendEmailVerification, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+/* ── UI helpers ── */
+function topAlert(html, type='er'){
+  const b=document.getElementById('topAl'), t=document.getElementById('topTxt'), ic=document.getElementById('topIco');
+  t.innerHTML=html; b.className=`al on ${type}`;
+  const icons={er:'fas fa-times-circle',su:'fas fa-check-circle',in:'fas fa-info-circle',wa:'fas fa-exclamation-triangle'};
+  ic.className=icons[type]||icons.er;
+  if(type==='su') setTimeout(()=>b.classList.remove('on'),6000);
+}
+function fieldErr(fid, errId, errTxtId, msg){
+  document.getElementById(fid).classList.add('e'); document.getElementById(fid).classList.remove('ok');
+  document.getElementById(errTxtId).textContent=msg;
+  document.getElementById(errId).classList.add('on');
+  document.getElementById(fid).focus();
+}
+function clearAll(){
+  document.getElementById('topAl').classList.remove('on');
+  document.getElementById('vn').classList.remove('on');
+  ['ei','pi'].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove('e','ok');}});
+  ['ee','pe'].forEach(id=>document.getElementById(id).classList.remove('on'));
+}
+
+/* ── Detailed error messages by Firebase code ── */
+function errDetail(code, email=''){
+  const m = {
+    'auth/user-not-found':{where:'email',msg:`No account found for <strong>${email||'this email'}</strong>. Check for typos, or <a href="register.html" style="color:#fda4af;text-decoration:underline;">create a new account</a>.`},
+    'auth/wrong-password':{where:'pass',msg:`Incorrect password for ${email||'this account'}. Please try again, or use <strong>Forgot password?</strong> to reset it.`},
+    'auth/invalid-credential':{where:'pass',msg:`The email or password is incorrect. Please check both carefully and try again.`},
+    'auth/invalid-email':{where:'email',msg:`"${email}" is not a valid email address. Please check it (e.g. name@example.com).`},
+    'auth/user-disabled':{where:'top',type:'er',msg:`⛔ This account has been <strong>disabled</strong> by the administrator. Please contact support.`},
+    'auth/too-many-requests':{where:'top',type:'wa',msg:`🔒 Too many failed login attempts. Your account is <strong>temporarily locked</strong>. Wait 5–10 minutes or <strong>reset your password</strong> now.`},
+    'auth/network-request-failed':{where:'top',type:'er',msg:`📶 Network error. Please check your internet connection and try again.`},
+    'auth/popup-blocked':{where:'top',type:'wa',msg:`🚫 Popup was blocked by your browser. Please <strong>allow popups</strong> for this site and try again.`},
+    'auth/account-exists-with-different-credential':{where:'email',msg:`An account with this email already exists but uses a <strong>different sign-in method</strong> (e.g. Google or Email). Please use that method to sign in.`},
+    'auth/operation-not-allowed':{where:'top',type:'er',msg:`This sign-in method is currently disabled. Please contact support.`},
+  };
+  return m[code]||null;
+}
+
+/* ── Auto-redirect if already logged in ── */
+onAuthStateChanged(auth, async user=>{
+  if(user && user.emailVerified) await redirectByRole(user);
+});
+
+async function redirectByRole(user){
+  try{
+    const s=await getDoc(doc(db,'users',user.uid));
+    if(s.exists()&&s.data().role==='admin'){window.location='admin.html';return;}
+  }catch(_){}
+  window.location='dashboard.html';
+}
+
+/* ── Ensure Firestore doc exists (fixes OAuth missing doc bug) ── */
+async function ensureUserDoc(user){
+  const ref=doc(db,'users',user.uid);
+  const snap=await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref,{
+      name:user.displayName||user.email?.split('@')[0]||'Student',
+      email:user.email||'',
+      phone:'',
+      role:'user',
+      purchasedCourses:[],
+      createdAt:serverTimestamp(),
+      authProvider:'google'
+    });
+    return true; /* newly created */
+  }
+  /* Patch missing fields silently */
+  const d=snap.data();
+  const patch={};
+  if(!d.email && user.email) patch.email=user.email;
+  if(!d.name && user.displayName) patch.name=user.displayName;
+  if(!d.purchasedCourses) patch.purchasedCourses=[];
+  if(!d.role) patch.role='user';
+  if(Object.keys(patch).length>0) await setDoc(ref,patch,{merge:true});
+  return false;
+}
+
+let pendingUser=null;
+
+/* ── Email Login ── */
+document.getElementById('loginBtn').onclick=async()=>{
+  clearAll();
+  const email=document.getElementById('ei').value.trim();
+  const pass =document.getElementById('pi').value;
+  if(!email){fieldErr('ei','ee','eet','Please enter your email address.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){fieldErr('ei','ee','eet',`"${email}" doesn't look like a valid email address.`);return;}
+  if(!pass){fieldErr('pi','pe','pet','Please enter your password.');return;}
+  if(pass.length<6){fieldErr('pi','pe','pet','Password is too short (minimum 6 characters).');return;}
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Signing in...';
+  try{
+    const res=await signInWithEmailAndPassword(auth,email,pass);
+    if(!res.user.emailVerified){
+      pendingUser=res.user;
+      document.getElementById('vn').classList.add('on');
+      topAlert(`📧 Your email <strong>${email}</strong> hasn't been verified yet. Click the link we sent when you registered, then come back and sign in.`,'wa');
+      btn.disabled=false;btn.innerHTML='<i class="fas fa-sign-in-alt"></i> Sign In';
+      return;
+    }
+    topAlert('✅ Sign in successful! Redirecting...','su');
+    await redirectByRole(res.user);
+  }catch(err){
+    const detail=errDetail(err.code,email);
+    if(detail){
+      if(detail.where==='email') fieldErr('ei','ee','eet',detail.msg);
+      else if(detail.where==='pass') fieldErr('pi','pe','pet',detail.msg);
+      else topAlert(detail.msg, detail.type||'er');
+    } else {
+      const raw=(err.message||'').replace('Firebase: ','').replace(/\(auth\/[^)]+\)/,'').trim();
+      topAlert(raw||'Sign-in failed. Please try again.','er');
+    }
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-sign-in-alt"></i> Sign In';
+  }
+};
+
+/* ── Resend verification ── */
+document.getElementById('resendBtn').onclick=async()=>{
+  if(!pendingUser)return;
+  const btn=document.getElementById('resendBtn');
+  btn.disabled=true;btn.textContent='Sending...';
+  try{
+    await sendEmailVerification(pendingUser);
+    topAlert(`📧 Verification email resent to <strong>${pendingUser.email}</strong>. Check your inbox and spam folder.`,'su');
+  }catch(e){
+    if(e.code==='auth/too-many-requests') topAlert('⏳ Too many requests. Please wait a minute before resending.','wa');
+    else topAlert('Failed to resend. Try again in a moment.','er');
+  }
+  btn.disabled=false;btn.innerHTML='<i class="fas fa-paper-plane" style="margin-right:4px;"></i>Resend Verification Email';
+};
+
+/* ── Google OAuth ── */
+document.getElementById('gBtn').onclick=async()=>{
+  clearAll();
+  const btn=document.getElementById('gBtn');
+  btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner" style="animation:spin 1s linear infinite;display:inline-block;margin-right:6px;"></i>Connecting to Google...';
+  try{
+    const provider=new GoogleAuthProvider();
+    provider.setCustomParameters({prompt:'select_account'});
+    provider.addScope('profile');provider.addScope('email');
+    const result=await signInWithPopup(auth,provider);
+    const user=result.user;
+    /* CRITICAL FIX: Always ensure Firestore doc exists for OAuth users */
+    await ensureUserDoc(user);
+    topAlert('✅ Google sign-in successful! Redirecting...','su');
+    await redirectByRole(user);
+  }catch(err){
+    if(err.code==='auth/popup-closed-by-user'||err.code==='auth/cancelled-popup-request'){
+      btn.disabled=false;btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google"> Sign in with Google';
+      return;
+    }
+    const detail=errDetail(err.code,'');
+    topAlert(detail?detail.msg:'Google sign-in failed. Please try again.', detail?.type||'er');
+    btn.disabled=false;btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google"> Sign in with Google';
+  }
+};
+
+/* ── Forgot password ── */
+document.getElementById('fgBtn').onclick=async()=>{
+  clearAll();
+  const email=document.getElementById('ei').value.trim();
+  if(!email){fieldErr('ei','ee','eet','Enter your email address above first, then click "Forgot password?".');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){fieldErr('ei','ee','eet','Please enter a valid email address.');return;}
+  try{
+    await sendPasswordResetEmail(auth,email);
+    document.getElementById('ei').classList.add('ok');
+    topAlert(`📧 Password reset email sent to <strong>${email}</strong>. Check your inbox and spam folder. The link expires in 1 hour.`,'su');
+  }catch(err){
+    if(err.code==='auth/user-not-found') fieldErr('ei','ee','eet',`No account found for <strong>${email}</strong>. Check for typos or <a href="register.html" style="color:#fda4af;text-decoration:underline;">register a new account</a>.`);
+    else if(err.code==='auth/invalid-email') fieldErr('ei','ee','eet','Please enter a valid email address.');
+    else if(err.code==='auth/too-many-requests') topAlert('⏳ Too many requests. Please wait a few minutes before trying again.','wa');
+    else topAlert('Could not send reset email. Please try again.','er');
+  }
+};
+</script>
+</body>
+</html>

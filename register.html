@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Register — Cyber Buddy Academy</title>
+<link rel="icon" href="https://raw.githubusercontent.com/Mubyyy404/Cyber-Buddy/main/mylogo.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
+<style>
+:root{--c:#06b6d4;--c2:#0ea5e9;--bg:#0b1220;--bg2:#0d1829;--bdr:rgba(6,182,212,.12);--tx:#e6f6f8;--dim:#64748b;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;}
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.nav{position:relative;z-index:10;height:54px;background:rgba(11,18,32,.96);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 24px;backdrop-filter:blur(14px);}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.95rem;color:var(--c);}
+.logo img{width:28px;height:28px;border-radius:7px;}
+.page{position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+.card{background:rgba(13,24,41,.92);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(18px);border-radius:16px;padding:26px;}
+.inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1.5px solid rgba(6,182,212,.2);border-radius:10px;color:var(--tx);font-family:'Poppins',sans-serif;font-size:.87rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.inp:focus{border-color:var(--c);box-shadow:0 0 0 3px rgba(6,182,212,.1);}
+.inp::placeholder{color:rgba(230,246,248,.28);}
+.inp.e{border-color:#f43f5e!important;box-shadow:0 0 0 3px rgba(244,63,94,.08)!important;}
+.inp.ok{border-color:#22c55e!important;}
+.lbl{display:block;font-size:.67rem;font-weight:700;color:var(--c);text-transform:uppercase;letter-spacing:1.3px;margin-bottom:5px;}
+.fe{display:none;align-items:flex-start;gap:6px;margin-top:6px;padding:7px 11px;border-radius:8px;background:rgba(244,63,94,.09);border:1px solid rgba(244,63,94,.2);font-size:.73rem;color:#fda4af;line-height:1.45;}
+.fe.on{display:flex;}
+.fe i{flex-shrink:0;margin-top:1px;}
+.fok{display:none;align-items:center;gap:5px;margin-top:4px;font-size:.72rem;color:#86efac;}
+.fok.on{display:flex;}
+.al{display:none;align-items:flex-start;gap:9px;padding:11px 14px;border-radius:10px;font-size:.8rem;font-weight:600;line-height:1.45;margin-bottom:16px;}
+.al.on{display:flex;}.al i{flex-shrink:0;margin-top:1px;}
+.al.er{background:rgba(76,5,25,.85);border:1px solid rgba(244,63,94,.32);color:#fda4af;}
+.al.su{background:rgba(6,78,59,.85);border:1px solid rgba(16,185,129,.32);color:#6ee7b7;}
+.c2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.c2{grid-template-columns:1fr;}}
+.btn-p{width:100%;padding:12px;background:linear-gradient(135deg,#06b6d4,#0ea5e9);color:#042028;font-weight:700;font-size:.9rem;border:none;border-radius:10px;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .18s,box-shadow .18s;}
+.btn-p:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 22px rgba(6,182,212,.35);}
+.btn-p:disabled{opacity:.6;cursor:not-allowed;}
+.btn-g{width:100%;padding:11px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:var(--tx);font-weight:600;font-size:.88rem;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;}
+.btn-g:hover:not(:disabled){background:rgba(255,255,255,.1);border-color:rgba(6,182,212,.35);}
+.btn-g:disabled{opacity:.6;cursor:not-allowed;}
+.div{display:flex;align-items:center;gap:10px;color:rgba(230,246,248,.2);font-size:.75rem;}
+.div::before,.div::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08);}
+.sb{height:4px;border-radius:2px;transition:all .3s;}
+.pw{position:relative;}.pw .inp{padding-right:44px;}
+.pwtog{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);cursor:pointer;font-size:.88rem;padding:3px;transition:color .2s;}
+.pwtog:hover{color:var(--c);}
+.terms-box{border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:10px 12px;background:rgba(255,255,255,.02);}
+.terms-row{display:flex;align-items:flex-start;gap:10px;}
+.terms-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--c);margin-top:2px;flex-shrink:0;cursor:pointer;}
+.terms-row span{font-size:.78rem;color:var(--dim);line-height:1.55;}
+.terms-row a{color:var(--c);text-decoration:none;}
+/* Req checklist */
+.req{font-size:.7rem;color:var(--dim);display:flex;align-items:center;gap:5px;margin-bottom:3px;transition:color .2s;}
+.req.ok{color:#86efac;}
+.req i{font-size:.6rem;}
+/* Verify overlay */
+.vo{position:fixed;inset:0;background:rgba(11,18,32,.97);backdrop-filter:blur(16px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
+.vo.on{display:flex;}
+.vc{background:rgba(13,24,41,.99);border:1px solid rgba(6,182,212,.25);border-radius:18px;padding:36px 32px;max-width:420px;width:100%;text-align:center;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.pi{animation:pulse 2.2s ease-in-out infinite;}
+</style>
+</head>
+<body>
+<canvas id="bgc"></canvas>
+<!-- Verify overlay -->
+<div class="vo" id="vo">
+  <div class="vc">
+    <div class="pi" style="width:68px;height:68px;border-radius:50%;background:rgba(6,182,212,.1);border:2px solid rgba(6,182,212,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+      <i class="fas fa-envelope-open" style="color:var(--c);font-size:1.6rem;"></i>
+    </div>
+    <h2 style="font-size:1.25rem;font-weight:800;color:var(--c);margin-bottom:10px;">Check Your Email</h2>
+    <p style="color:var(--dim);font-size:.82rem;margin-bottom:7px;">We sent a verification link to:</p>
+    <p id="vemail" style="font-weight:700;font-size:.92rem;color:var(--tx);margin-bottom:16px;word-break:break-all;"></p>
+    <div style="background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.2);border-radius:8px;padding:10px 13px;margin-bottom:18px;text-align:left;">
+      <p style="font-size:.77rem;color:#fde68a;line-height:1.6;">
+        <i class="fas fa-info-circle" style="margin-right:4px;"></i>
+        <strong>What to do:</strong><br>
+        1. Open your email inbox<br>
+        2. Find the email from Cyber Buddy Academy<br>
+        3. Click the verification link<br>
+        4. Then come back and sign in!<br>
+        <span style="opacity:.7;">Don't see it? Check your Spam or Junk folder.</span>
+      </p>
+    </div>
+    <a href="login.html" class="btn-p" style="text-decoration:none;justify-content:center;"><i class="fas fa-sign-in-alt"></i>Go to Login Page</a>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="logo">
+    <img src="https://raw.githubusercontent.com/Mubyyy404/Cyber-Buddy/refs/heads/main/mylogo.png" alt="">
+    <span>Cyber<span style="color:#fff;">Buddy</span> <span style="font-size:.65rem;font-weight:400;color:var(--dim);">Academy</span></span>
+  </div>
+</div>
+<div class="page">
+  <div style="width:100%;max-width:480px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.22);display:flex;align-items:center;justify-content:center;margin:0 auto 13px;"><i class="fas fa-user-plus" style="color:var(--c);font-size:1.2rem;"></i></div>
+      <h1 style="font-size:1.35rem;font-weight:800;color:var(--c);">Create Your Account</h1>
+      <p style="font-size:.79rem;color:var(--dim);margin-top:5px;">Join Cyber Buddy Academy — free forever</p>
+    </div>
+    <div class="card">
+      <div class="al" id="topAl"><i id="topIco" class="fas fa-exclamation-circle"></i><div id="topTxt"></div></div>
+      <!-- Name + Phone -->
+      <div class="c2" style="margin-bottom:13px;">
+        <div>
+          <label class="lbl">Full Name *</label>
+          <input id="ni" type="text" class="inp" placeholder="Mohamed Mubeen" autocomplete="name">
+          <div class="fe" id="ne"><i class="fas fa-exclamation-circle"></i><span id="net"></span></div>
+        </div>
+        <div>
+          <label class="lbl">Phone Number</label>
+          <input id="phi" type="tel" class="inp" placeholder="+91 98765 43210" autocomplete="tel">
+          <div class="fe" id="phe"><i class="fas fa-exclamation-circle"></i><span id="phet"></span></div>
+        </div>
+      </div>
+      <!-- Email -->
+      <div style="margin-bottom:13px;">
+        <label class="lbl">Email Address *</label>
+        <input id="ei" type="email" class="inp" placeholder="you@email.com" autocomplete="email">
+        <div class="fe" id="ee"><i class="fas fa-exclamation-circle"></i><span id="eet"></span></div>
+        <div class="fok" id="eok"><i class="fas fa-check-circle"></i><span>Valid email address ✓</span></div>
+      </div>
+      <!-- Password -->
+      <div style="margin-bottom:13px;">
+        <label class="lbl">Password *</label>
+        <div class="pw">
+          <input id="psi" type="password" class="inp" placeholder="Create a strong password" oninput="checkPw()" autocomplete="new-password">
+          <button class="pwtog" id="pwtog" type="button"><i class="fas fa-eye" id="pwico"></i></button>
+        </div>
+        <!-- Strength bars -->
+        <div style="display:flex;gap:3px;margin-top:7px;">
+          <div id="sb1" class="sb" style="flex:1;background:#1e293b;"></div>
+          <div id="sb2" class="sb" style="flex:1;background:#1e293b;"></div>
+          <div id="sb3" class="sb" style="flex:1;background:#1e293b;"></div>
+          <div id="sb4" class="sb" style="flex:1;background:#1e293b;"></div>
+        </div>
+        <p id="stxt" style="font-size:.7rem;margin-top:3px;min-height:16px;color:var(--dim);"></p>
+        <!-- Requirements checklist -->
+        <div id="pwreqs" style="display:none;padding:8px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;margin-top:6px;">
+          <p class="req" id="r1"><i class="fas fa-circle"></i>At least 8 characters</p>
+          <p class="req" id="r2"><i class="fas fa-circle"></i>At least one uppercase letter (A–Z)</p>
+          <p class="req" id="r3"><i class="fas fa-circle"></i>At least one number (0–9)</p>
+          <p class="req" id="r4"><i class="fas fa-circle"></i>At least one special character (!@#$…)</p>
+        </div>
+        <div class="fe" id="psE"><i class="fas fa-exclamation-circle"></i><span id="psEt"></span></div>
+      </div>
+      <!-- Confirm Password -->
+      <div style="margin-bottom:16px;">
+        <label class="lbl">Confirm Password *</label>
+        <input id="ci" type="password" class="inp" placeholder="Type your password again" oninput="checkCf()" autocomplete="new-password">
+        <div class="fe" id="ce"><i class="fas fa-exclamation-circle"></i><span id="cet"></span></div>
+        <div class="fok" id="cok"><i class="fas fa-check-circle"></i><span>Passwords match ✓</span></div>
+      </div>
+      <!-- Terms -->
+      <div class="terms-box" style="margin-bottom:16px;">
+        <label class="terms-row">
+          <input id="tc" type="checkbox">
+          <span>I agree to the <a href="#" onclick="return false;">Terms of Service</a> and <a href="#" onclick="return false;">Privacy Policy</a>. I understand my data will be stored securely and never sold.</span>
+        </label>
+        <div class="fe" id="tce" style="margin-top:6px;"><i class="fas fa-exclamation-circle"></i><span id="tcet"></span></div>
+      </div>
+      <button id="regBtn" class="btn-p" style="margin-bottom:14px;"><i class="fas fa-user-plus"></i>Create Account</button>
+      <div class="div" style="margin-bottom:14px;">OR CONTINUE WITH</div>
+      <button id="gBtn" class="btn-g" style="margin-bottom:16px;">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+        Sign up with Google
+      </button>
+      <p style="text-align:center;font-size:.8rem;color:var(--dim);">Already have an account? <a href="login.html" style="color:var(--c);font-weight:700;text-decoration:none;margin-left:2px;">Sign in →</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('bgc'),x=c.getContext('2d');let d=[];
+  function r(){c.width=innerWidth;c.height=innerHeight;d=Array.from({length:Math.floor(c.width/16)},()=>Math.random()*40);}
+  r();window.addEventListener('resize',r);
+  setInterval(()=>{x.fillStyle='rgba(11,18,32,.1)';x.fillRect(0,0,c.width,c.height);x.fillStyle='rgba(6,182,212,.5)';x.font='12px monospace';d.forEach((y,i)=>{x.fillText(Math.random()>.5?'1':'0',i*16,y*16);if(y*16>c.height&&Math.random()>.975)d[i]=0;d[i]+=.8;});},55);
+})();
+/* PW toggle */
+(function(){
+  const p=document.getElementById('psi'),ico=document.getElementById('pwico');
+  document.getElementById('pwtog').onclick=()=>{const v=p.type==='password';p.type=v?'text':'password';ico.className=v?'fas fa-eye-slash':'fas fa-eye';};
+})();
+/* Live email validation */
+document.getElementById('ei').addEventListener('input',function(){
+  const v=this.value.trim();
+  this.classList.remove('e','ok');
+  document.getElementById('ee').classList.remove('on');
+  document.getElementById('eok').classList.remove('on');
+  if(!v)return;
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){this.classList.add('ok');document.getElementById('eok').classList.add('on');}
+});
+/* Password strength */
+function checkPw(){
+  const v=document.getElementById('psi').value;
+  document.getElementById('pwreqs').style.display=v.length?'block':'none';
+  document.getElementById('psE').classList.remove('on');
+  document.getElementById('psi').classList.remove('e');
+  const checks=[v.length>=8,/[A-Z]/.test(v),/[0-9]/.test(v),/[^a-zA-Z0-9]/.test(v)];
+  let score=checks.filter(Boolean).length;
+  const bars=['sb1','sb2','sb3','sb4'].map(id=>document.getElementById(id));
+  const cols=['','#f43f5e','#fb923c','#facc15','#22c55e'];
+  const lbls=['','Weak — very easy to guess','Fair — could be much stronger','Good — almost there!','Strong ✓ — great password'];
+  bars.forEach((b,i)=>{b.style.background=i<score?cols[score]:'#1e293b';});
+  const t=document.getElementById('stxt');t.textContent=v.length?lbls[score]:'';t.style.color=cols[score]||'';
+  /* Update req items */
+  [['r1',checks[0]],['r2',checks[1]],['r3',checks[2]],['r4',checks[3]]].forEach(([id,ok])=>{
+    const el=document.getElementById(id);
+    el.classList.toggle('ok',ok);
+    el.querySelector('i').className=ok?'fas fa-check-circle':'fas fa-circle';
+  });
+  checkCf();
+}
+function checkCf(){
+  const p=document.getElementById('psi').value;
+  const c=document.getElementById('ci').value;
+  if(!c)return;
+  const inp=document.getElementById('ci');
+  const ok=p===c;
+  inp.classList.toggle('ok',ok);inp.classList.toggle('e',!ok);
+  document.getElementById('cok').classList.toggle('on',ok);
+  if(!ok){document.getElementById('cet').textContent='Passwords don\'t match. Please retype.';document.getElementById('ce').classList.add('on');}
+  else document.getElementById('ce').classList.remove('on');
+}
+</script>
+
+<script type="module">
+import { auth, db } from "./js/firebase.js";
+import { createUserWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+/* Redirect if already logged in with verified email */
+onAuthStateChanged(auth, user=>{ if(user&&user.emailVerified) window.location='dashboard.html'; });
+
+function topAlert(html, type='er'){
+  const b=document.getElementById('topAl'),t=document.getElementById('topTxt'),ic=document.getElementById('topIco');
+  t.innerHTML=html; b.className=`al on ${type}`;
+  ic.className=type==='su'?'fas fa-check-circle':'fas fa-exclamation-circle'; ic.style.flexShrink='0';
+}
+function fErr(fid,eid,etid,msg){
+  const inp=document.getElementById(fid); inp.classList.add('e'); inp.classList.remove('ok');
+  document.getElementById(etid).innerHTML=msg;
+  document.getElementById(eid).classList.add('on');
+  /* Hide ok */
+  const okId=eid.replace('e','ok').replace('E','ok'); try{document.getElementById(okId)?.classList.remove('on');}catch(_){}
+}
+function clearAll(){
+  document.getElementById('topAl').classList.remove('on');
+  ['ni','ei','psi','ci'].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove('e','ok');}});
+  ['ne','ee','psE','ce','phe','tce'].forEach(id=>document.getElementById(id)?.classList.remove('on'));
+  ['eok','cok'].forEach(id=>document.getElementById(id)?.classList.remove('on'));
+}
+
+function getRegErr(code){
+  const m={
+    'auth/email-already-in-use':{field:'ei',eid:'ee',etid:'eet',msg:`An account with this email already exists. <a href="login.html" style="color:#fda4af;text-decoration:underline;">Sign in instead →</a>`},
+    'auth/invalid-email':{field:'ei',eid:'ee',etid:'eet',msg:'Please enter a valid email address (e.g. name@example.com).'},
+    'auth/weak-password':{field:'psi',eid:'psE',etid:'psEt',msg:'Password is too weak. Use at least 8 characters with uppercase, numbers, and symbols.'},
+    'auth/operation-not-allowed':{where:'top',msg:'Email registration is currently disabled. Please contact support.'},
+    'auth/network-request-failed':{where:'top',msg:'📶 Network error. Check your internet connection and try again.'},
+    'auth/too-many-requests':{where:'top',msg:'⏳ Too many attempts. Please wait a few minutes and try again.'},
+  };
+  return m[code]||null;
+}
+
+async function createUserDoc(uid, name, email, phone, provider='email'){
+  await setDoc(doc(db,'users',uid),{
+    name: name||email?.split('@')[0]||'Student',
+    email: email||'',
+    phone: phone||'',
+    role: 'user',
+    purchasedCourses: [],
+    createdAt: serverTimestamp(),
+    authProvider: provider
+  });
+}
+
+/* ── Register ── */
+document.getElementById('regBtn').onclick=async()=>{
+  clearAll();
+  const name    = document.getElementById('ni').value.trim();
+  const phone   = document.getElementById('phi').value.trim();
+  const email   = document.getElementById('ei').value.trim();
+  const pass    = document.getElementById('psi').value;
+  const confirm = document.getElementById('ci').value;
+  const terms   = document.getElementById('tc').checked;
+  let hasErr=false;
+
+  if(!name||name.length<2){fErr('ni','ne','net','Please enter your full name (at least 2 characters).');hasErr=true;}
+  if(!email){fErr('ei','ee','eet','Your email address is required.');hasErr=true;}
+  else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){fErr('ei','ee','eet',`"${email}" is not a valid email address. Check for typos.`);hasErr=true;}
+  if(phone&&!/^[+\d\s\-()]{7,15}$/.test(phone)){fErr('phi','phe','phet','Please enter a valid phone number (digits only, 7–15 characters).');hasErr=true;}
+  if(!pass){fErr('psi','psE','psEt','Please create a password for your account.');hasErr=true;}
+  else if(pass.length<8){fErr('psi','psE','psEt','Password must be at least 8 characters long.');hasErr=true;}
+  if(pass&&!confirm){fErr('ci','ce','cet','Please confirm your password by typing it again.');hasErr=true;}
+  else if(pass&&confirm&&pass!==confirm){fErr('ci','ce','cet','Passwords don\'t match. Please retype your password carefully.');hasErr=true;}
+  if(!terms){document.getElementById('tcet').textContent='You must accept the Terms of Service to create an account.';document.getElementById('tce').classList.add('on');hasErr=true;}
+  if(hasErr)return;
+
+  const btn=document.getElementById('regBtn');
+  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>Creating your account...';
+  try{
+    const res=await createUserWithEmailAndPassword(auth,email,pass);
+    /* Create Firestore doc BEFORE sending verification */
+    await createUserDoc(res.user.uid, name, email, phone, 'email');
+    await sendEmailVerification(res.user);
+    document.getElementById('vemail').textContent=email;
+    document.getElementById('vo').classList.add('on');
+  }catch(err){
+    const detail=getRegErr(err.code);
+    if(detail){
+      if(detail.field) fErr(detail.field,detail.eid,detail.etid,detail.msg);
+      else topAlert(detail.msg,'er');
+    } else {
+      const raw=(err.message||'').replace('Firebase: ','').replace(/\(auth\/[^)]+\)/,'').trim();
+      topAlert(raw||'Registration failed. Please try again.','er');
+    }
+    btn.disabled=false; btn.innerHTML='<i class="fas fa-user-plus"></i>Create Account';
+  }
+};
+
+/* ── Google Sign-Up ── */
+document.getElementById('gBtn').onclick=async()=>{
+  clearAll();
+  const btn=document.getElementById('gBtn');
+  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>Connecting...';
+  try{
+    const provider=new GoogleAuthProvider();
+    provider.setCustomParameters({prompt:'select_account'});
+    provider.addScope('profile'); provider.addScope('email');
+    const result=await signInWithPopup(auth,provider);
+    const user=result.user;
+    /* Always upsert Firestore doc — handles both new and returning OAuth users */
+    const ref=doc(db,'users',user.uid);
+    const snap=await getDoc(ref);
+    if(!snap.exists()){
+      await createUserDoc(user.uid, user.displayName, user.email, '', 'google');
+    } else {
+      /* Patch missing fields if doc already exists but is incomplete */
+      const d=snap.data(); const patch={};
+      if(!d.email && user.email) patch.email=user.email;
+      if(!d.name && user.displayName) patch.name=user.displayName;
+      if(!d.purchasedCourses) patch.purchasedCourses=[];
+      if(!d.role) patch.role='user';
+      if(Object.keys(patch).length) await setDoc(ref,patch,{merge:true});
+    }
+    window.location='dashboard.html';
+  }catch(err){
+    if(err.code!=='auth/popup-closed-by-user'&&err.code!=='auth/cancelled-popup-request'){
+      const detail=getRegErr(err.code);
+      topAlert(detail?.msg||'Google sign-up failed. Please try again.','er');
+    }
+    btn.disabled=false; btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google"> Sign up with Google';
+  }
+};
+</script>
+</body>
+</html>
